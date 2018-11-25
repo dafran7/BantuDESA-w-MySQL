@@ -7,11 +7,18 @@ router.all('/*', function (req, res, next) {
     next(); // pass control to the next handler
 });
 
-// Get Sayembara Page
+// Get Profil desa Page
 router.get('/', function(req, res){
 	lastUrl = req.originalUrl;
 
-	res.render('profildesa');
+    var db = req.con;
+
+	db.query('SELECT * FROM desa', function(err,desas){
+		if(err) throw err;
+		console.log(desas);
+		
+		res.render('profildesa', {desas:desas});
+	});
 });
 
 module.exports = router;
