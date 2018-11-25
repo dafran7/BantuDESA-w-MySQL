@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 // var Article = require('../models/article');
 // Login Layout
 router.all('/*', function (req, res, next) {
@@ -37,7 +38,9 @@ router.get('/:id', function(req, res){
 		if(!article){
     		res.render('article', {message: 'Article not found'});
 		}
-		
+
+		article[0].tanggal_buat = article[0].tanggal_buat.toDateString();
+		article[0].isi_artikel = article[0].isi_artikel.replace(/\\n/g, '<br><br>');
 		var data = JSON.stringify(article);
     	res.render('article', {article:article});
 	});

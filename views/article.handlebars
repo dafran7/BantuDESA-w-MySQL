@@ -10,14 +10,15 @@
   <link rel="stylesheet" href="/assets/css/theme/mbr-additional.css">
   <style type="text/css">
   #paragraf {
-      white-space: pre-wrap;
+      /*white-space: pre-wrap;*/
     }
   </style>
+
 {{#each article}}
-<section class="mbr-section content5 cid-qv5ziUg3gf mbr-parallax-background" id="content5-11" data-rv-view="5936" style="background-image: url({{this.[foto]}})"> <!-- Ganti foto di mbr-additional.css, Search "cid-qv5ziUg3gf" -->
+<!-- <section class="mbr-section content5 cid-qv5ziUg3gf mbr-parallax-background" id="content5-11" data-rv-view="5936" style="background-image: url({{this.[foto]}})">
     
 
-    <div class="mbr-overlay" style="opacity: 0.7; background-color: rgb(35, 35, 35);">
+    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);">
     </div>
     
     <div class="container" style="padding-top: 100px;">
@@ -32,14 +33,11 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <section class="mbr-section content4 cid-qv5zj5r8jw" id="content4-12" data-rv-view="5939">
-
-    
-
     <div class="container">
-        <div class="media-container-row">
+        <div class="media-container-row" style="padding-top: 5%;">
             <div class="title col-12 col-md-8">
                 <h2 class="align-center pb-3 mbr-fonts-style display-2">
                     {{#ifCond user.id '==' this.[id_user]}}
@@ -49,7 +47,7 @@
                     </a>
                 </h2>
                 <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5">
-                    Shape your future web project with sharp design and refine coded functions.
+                    {{this.[tanggal_buat]}}
                 </h3>
                 
             </div>
@@ -58,23 +56,11 @@
 </section>
 
 <section class="mbr-section content6 cid-qv5zlioaYy" id="content6-1a" data-rv-view="5941">
-    
-     
-    
     <div class="container">
         <div class="media-container-row">
             <div class="col-12 col-md-8">
                 <div class="media-container-row">
-                    <div class="mbr-figure" style="width: 120%;">
-                      <img src="{{this.[foto]}}" alt="{{this.[judul_artikel]}}" title="" media-simple="true">  
-                    </div>
-                    <div class="media-content">
-                        <div class="mbr-section-text">
-                            <p class="mbr-text mb-0 mbr-fonts-style display-7">
-                               <strong>{{this.[deskripsi_singkat]}}</strong> Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. Mobirise Website Builder creates responsive, retina and <em>mobile friendly websites</em> in a few clicks. Mobirise is one of the easiest website development tools available today.
-                            </p>
-                        </div>
-                    </div>
+                    <img src="{{this.[foto]}}" alt="{{this.[judul_artikel]}}" title="" media-simple="true">   
                 </div>
             </div>
         </div>
@@ -82,34 +68,14 @@
 </section>
 
 <section class="mbr-section article content1 cid-qv5zjZaZyh" id="content1-15" data-rv-view="5943">
-    
-     
-
     <div class="container">
-        <div class="media-container-row">
-            <div id="paragraf" class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">{{this.[isi_artikel]}}
-                <strong> Make your own website in a few clicks!</strong> Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. Mobirise Website Builder creates responsive, retina and <em>mobile friendly websites</em> in a few clicks. Mobirise is one of the easiest website development tools <a href="https://mobirise.com/">available</a> today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.
+        <div class="media-container-row" style="padding-top: 5%; padding-bottom: 5%">
+            <div id="paragraf" class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+                {{{this.[isi_artikel]}}}
+                <!-- <strong> Make your own website in a few clicks!</strong> Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. Mobirise Website Builder creates responsive, retina and <em>mobile friendly websites</em> in a few clicks. Mobirise is one of the easiest website development tools <a href="https://mobirise.com/">available</a> today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app. -->
             </div>
         </div>
     </div>
 </section>
 {{/each}}
-
-<section class="mbr-section article content3 cid-qv5zkUbJUo" id="content3-19" data-rv-view="5944">
-      
-     
-
-    <div class="container">
-        <div class="media-container-row">
-            <div class="row col-12 col-md-8">
-                <div class="col-12 col-md-6 pr-lg-4 mbr-text mbr-fonts-style display-7">
-                     Make your own website in a few clicks! Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. Mobirise Website Builder creates responsive, retina and mobile friendly websites in a few clicks. Mobirise is one of the easiest website development tools available today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.
-                </div>
-                <div class="col-12 col-md-6 pl-lg-4 mbr-text mbr-fonts-style display-7">
-                     Make your own website in a few clicks! Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. Mobirise Website Builder creates responsive, retina and mobile friendly websites in a few clicks. Mobirise is one of the easiest website development tools available today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 </html>
