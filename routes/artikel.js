@@ -14,11 +14,18 @@ router.get('/', function(req, res){
 	lastUrl = req.originalUrl;
 
 	var db = req.con;
-	db.query('SELECT * FROM articles', function(err,articles){
+	db.query('SELECT * FROM articles ORDER BY tanggal_buat DESC', function(err,articles){
 		if(err) throw err;
-		console.log(articles);
 
-		res.render('head-article', {articles:articles})
+		for (var i = 0; i < articles.length; i++) {
+			articles[i].tanggal_buat = articles[i].tanggal_buat.toDateString();
+			if(articles[i].deskripsi_singkat==null){
+				articles[i].deskripsi_singkat = articles[i].isi_artikel.substring(0, 100);
+			}
+		}
+		
+		
+		res.render('head-article', {articles:articles});
 	});
 
 	// Article.getAllArticles({}, {sort: '-tanggal_buat'}, function(err, articles) {
