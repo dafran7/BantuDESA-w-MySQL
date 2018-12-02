@@ -11,7 +11,7 @@ router.all('/*', function (req, res, next) {
     next(); 							// pass control to the next handler
 });
 
-// Get Sayembara Page
+// Get Sayembara Page (semua sayembara)
 router.get('/', function(req, res){
 	lastUrl = req.originalUrl;
 
@@ -24,17 +24,43 @@ router.get('/', function(req, res){
 	});
 });
 
-router.get('/:id', function(req, res){
+// Get Sayembara tertentu
+ function getIdDesa(req, res, next){
 	lastUrl = req.originalUrl;
-	Sayembara.getSayembaraById(req.params.id, function(err, sayembara){
+	var db = req.con;
+	db.query('SELECT id_desa FROM sayembara WHERE id_sayembara=?', [req.params.id], function(err,id_desa){
 		if(err) throw err;
-		if(!sayembara){
-    		res.render('sayembara', {message: 'Article not found'});
-    	}
-    	res.render('sayembara', {sayembara:sayembara});
+		if(!id_desa){
+    		res.render('sayembara', {message: 'Sayembara not found'});
+		}
+		req.id_desa = id_desa;
+		next();
 	});
+ }
 
-});
+ function getSayembara_Desa(req, res, next){
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var id_desa = req.id_desa[0].id_desa;
+	console.log(id_desa)
+	db.query('SELECT sayembara.*, desa.* FROM sayembara JOIN desa ON sayembara.id_desa = desa.id_desa WHERE sayembara.id_desa=?', [id_desa], function(err,sayembara_desa){
+		if(err) throw err;
+		if(!sayembara_desa){
+    		res.render('sayembara', {message: 'Sayembara not found'});
+		}
+		req.sayembara_desa = sayembara_desa;
+		console.log(req.sayembara_desa);
+		next();
+	});
+ }
+
+ function renderSayembaraPage(req, res){
+	res.render('sayembara', {
+		sayembara_desa: req.sayembara_desa
+	});
+ }
+
+ router.get('/:id', getIdDesa, getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
 // router.post('/:id', upload.single('file'), function(req, res){
