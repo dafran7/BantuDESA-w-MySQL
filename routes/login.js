@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
+var con = require("../connection");
 
 var User = require('../models/user');
 var Desa = require('../models/desa');
@@ -68,29 +70,48 @@ router.post('/register', function(req, res){
 	} else {
 		if(type=='locals')
 			usercode = 2;
-		var newUser = new User({
-			name: name,
-			email: email,
-			username: username,
-			password: password,
-			usercode: usercode
-		});
 
-		User.createUser(newUser, function(err, user){
-			if(err) throw err;
-			if(type=='locals'){
-				var newDesa = new Desa({
-					nama_desa: nama_desa,
-					lokasi_desa: lokasi_desa,
-					id_user: user.id
+		var db = req.con;
+		db.query('SELECT COUNT(*) FROM user', function(err,count){
+			console.log("Users count :"+count);
+			bcrypt.genSalt(10, function(err, salt) {
+				bcrypt.hash(password, salt, function(err, hash) {
+					hash_pass = hash;
+
+					db.query('INSERT INTO user (id_user, username, password, email, name, usercode,\
+						id_desa) VALUES (?,?,?,?,?,?,?)',[count+1,username,hash_pass,email,name,usercode,(type=='locals')?3:null], function(err,rows){
+							
+							if(err) throw err;
+							console.log(rows);
+						});
 				});
-
-				Desa.createDesa(newDesa, function(err, desa){
-					if(err) throw err;
-				})
-			}
-			//console.log(user);
+			});
 		});
+		
+		
+		// var newUser = new User({
+		// 	name: name,
+		// 	email: email,
+		// 	username: username,
+		// 	password: password,
+		// 	usercode: usercode
+		// });
+
+		// User.createUser(newUser, function(err, user){
+		// 	if(err) throw err;
+		// 	if(type=='locals'){
+		// 		var newDesa = new Desa({
+		// 			nama_desa: nama_desa,
+		// 			lokasi_desa: lokasi_desa,
+		// 			id_user: user.id
+		// 		});
+
+		// 		Desa.createDesa(newDesa, function(err, desa){
+		// 			if(err) throw err;
+		// 		})
+		// 	}
+		// 	//console.log(user);
+		// });
 
 		req.flash('success_msg', 'You are now registered!');
 
@@ -100,30 +121,55 @@ router.post('/register', function(req, res){
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.getUserByUsername(username, function(err, user){
-    	if(err) throw err;
-    	if(!user){
-    		return done(null, false, {message: 'Username not found'});
-    	}
 
-    	User.comparePassword(password, user.password, function(err, isMatch){
-    		if(err) throw err;
-    		if(isMatch)
-    			return done(null, user);
+	var db = con;
+	db.query('SELECT * FROM user WHERE username=?', username, function(err,rows){
+		if(err) throw err;
+		console.log(rows[0]);
+
+		var hash_pass = rows[0].password;
+		// console.log(password);
+		// console.log(rows[0].password);
+		bcrypt.compare(password, hash_pass, function(err, isMatch) {
+			if(err) throw err;
+			if(isMatch)
+				return done(null, rows[0]);
     		else
     			return done(null, false, {message: 'Invalid password'});
-    	});
-    });
+	   });
+	});
+
+	// db.end();
+    // User.getUserByUsername(username, function(err, user){
+    // 	if(err) throw err;
+    // 	if(!user){
+    // 		return done(null, false, {message: 'Username not found'});
+    // 	}
+
+    // 	User.comparePassword(password, user.password, function(err, isMatch){
+    // 		if(err) throw err;
+    // 		if(isMatch)
+    // 			return done(null, user);
+    // 		else
+    // 			return done(null, false, {message: 'Invalid password'});
+    // 	});
+    // });
   }));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  	done(null, user.id_user);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.getUserById(id, function(err, user) {
-    done(err, user);
-  });
+	var db = con;
+	db.query('SELECT * FROM user WHERE id_user=?', id, function(err,rows){
+		done(err, rows[0]);
+	});
+
+	// db.end();
+	// User.getUserById(id, function(err, user) {
+	// 	done(err, user);
+	// });
 });
 
 router.post('/', passport.authenticate('local', {

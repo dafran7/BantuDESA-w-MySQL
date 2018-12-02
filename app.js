@@ -9,22 +9,6 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-// Initialize Database
-var mysql = require("mysql");
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "bantu_desa"
-});
-con.connect(function(err){
-    if(err){
-        console.log('Error connecting to DB');
-        return;
-    }
-    console.log('Connection established');
-});
-
 var routes = require('./routes/index');
 var login = require('./routes/login');
 var sayembara = require('./routes/sayembara');
@@ -54,6 +38,7 @@ app.use('/upload', express.static(__dirname + '/uploads'));
 app.use(express.static('public/assets/img'));
 
 // Making db accessible to routers
+var con = require('./connection');
 app.use(function(req,res,next){
     req.con = con;
     next();
