@@ -8,29 +8,42 @@
     {{#each articles as |article|}}
       {{#ifCond @index '==' 0}}
         <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-          <div class="col-md-6 px-0">
-            <h1 class="display-4 font-italic">{{article.[judul_artikel]}}</h1>
-            <p class="lead my-3">{{substr article.[deskripsi_singkat] 70}}</p>
-            <p class="lead mb-0"><a href="/artikel/{{article.[id_artikel]}}" class="text-white font-weight-bold">Continue reading...</a></p>
-          </div>
+            <div class="row">
+              <div class=col-md-6>
+                <strong class="d-inline-block mb-2 text-primary">{{article.[topik]}}</strong>
+                <h2 class="display-4 font-italic">{{article.[judul_artikel]}}</h2>
+                <div class="mb-1 text-muted">{{article.[tanggal_buat]}}</div>
+                <p class="lead my-3">{{substr article.[deskripsi_singkat] 70}}</p>
+                <p class="lead mb-0"><a href="/artikel/{{article.[id_artikel]}}" class="text-white font-weight-bold">Continue reading...</a></p>
+              </div>
+              <div class="col-md-6">
+                <img src="{{article.[foto]}}" alt="{{article.[judul_artikel]}}">
+              </div>
+            </div>
         </div>
       {{/ifCond}}
 
       {{#ifCond @index '!=' 0}}
         {{#ifCond @index '%!=0' 2}}
-          <div class="row mb-2">
+          <div class="row">
             <div class="col-md-6">
               <div class="card flex-md-row mb-4 box-shadow h-md-250">
                 <div class="card-body d-flex flex-column align-items-start">
-                  <strong class="d-inline-block mb-2 text-primary">{{article.[topik]}}</strong>
-                  <h3 class="mb-0">
-                    <a class="text-dark" href="/artikel/{{article.id}}">{{article.[judul_artikel]}}</a>
-                  </h3>
-                  <div class="mb-1 text-muted">Nov 12(X)</div>
-                  <p class="card-text mb-auto">{{substr article.[deskripsi_singkat] 70}}</p>
-                  <a href="/artikel/{{article.[id_artikel]}}">Continue reading</a>
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <strong class="d-inline-block mb-2 text-primary">{{article.[topik]}}</strong>
+                      <h3 class="mb-0 card-title">
+                        <a class="text-dark" href="/artikel/{{article.[id_artikel]}}">{{article.[judul_artikel]}}</a>
+                      </h3>
+                      <div class="mb-1 text-muted">{{article.[tanggal_buat]}}</div>
+                      <p class="card-text mb-auto">{{substr article.[deskripsi_singkat] 70}}</p>
+                      <a class="card-link" href="/artikel/{{article.[id_artikel]}}">Continue reading</a>
+                    </div>
+                    <div class="col-lg-4">
+                      <img class="card-img-bottom flex-auto d-none d-lg-block" src="{{article.[foto]}}" alt="{{article.[judul_artikel]}}">
+                    </div>
+                  </div>
                 </div>
-                <img class="card-img-right flex-auto d-none d-lg-block" data-src="{{article.[foto]}}" alt="{{article.[judul_artikel]}}">
               </div>
             </div>
           {{/ifCond}}
@@ -39,15 +52,21 @@
             <div class="col-md-6">
               <div class="card flex-md-row mb-4 box-shadow h-md-250">
                 <div class="card-body d-flex flex-column align-items-start">
-                  <strong class="d-inline-block mb-2 text-success">{{article.[topik]}}</strong>
-                  <h3 class="mb-0">
-                    <a class="text-dark" href="/artikel/{{article.id}}">{{article.[judul_artikel]}}</a>
-                  </h3>
-                  <div class="mb-1 text-muted">Nov 11(X)</div>
-                  <p class="card-text mb-auto">{{substr article.[deskripsi_singkat] 70}}</p>
-                  <a href="/artikel/{{article.[id_artikel]}}">Continue reading</a>
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <strong class="d-inline-block mb-2 text-success">{{article.[topik]}}</strong>
+                      <h3 class="mb-0 card-title">
+                        <a class="text-dark" href="/artikel/{{article.[id_artikel]}}">{{article.[judul_artikel]}}</a>
+                      </h3>
+                      <div class="mb-1 text-muted">{{article.[tanggal_buat]}}</div>
+                      <p class="card-text mb-auto">{{substr article.[deskripsi_singkat] 70}}</p>
+                      <a class="card-link" href="/artikel/{{article.[id_artikel]}}">Continue reading</a>
+                    </div>
+                    <div class="col-lg-4">
+                      <img class="card-img-bottom flex-auto d-none d-lg-block" src="{{article.[foto]}}" alt="{{article.[judul_artikel]}}">
+                    </div>
+                  </div>
                 </div>
-                <img class="card-img-right flex-auto d-none d-lg-block" data-src="{{article.[foto]}}" alt="{{article.[judul_artikel]}}">
               </div>
             </div>
           </div>
