@@ -5,6 +5,12 @@ var path = require('path');
 
 var multer = require('multer');
 var upload = multer({ dest: './tmp/'});
+
+var icon = {Infrastruktur: "INFRABULungu.png", 
+			Pakan: "PAKANBULoren.png", 
+			Pangan: "PANGANBULbitu.png",
+			Pariwisata: "PARIBULpink.png"};
+
 // Login Layout
 router.all('/*', function (req, res, next) {
     req.app.locals.layout = 'layout'; 	// set your layout here
@@ -18,6 +24,13 @@ router.get('/', function(req, res){
 	var db = req.con;
 	db.query('SELECT * FROM sayembara', function(err,sayembaras){
 		if(err) throw err;
+
+		for (var i = 0; i < sayembaras.length; i++) {
+			sayembaras[i].tanggal_awal = sayembaras[i].tanggal_awal.toDateString();
+			sayembaras[i].tanggal_akhir = sayembaras[i].tanggal_akhir.toDateString();
+			sayembaras[i].gambar = icon[sayembaras[i].topik];
+		}
+
 		console.log(sayembaras);
 		
 		res.render('head-sayembara', {sayembaras:sayembaras});
@@ -48,8 +61,11 @@ router.get('/', function(req, res){
 		if(!sayembara_desa){
     		res.render('sayembara', {message: 'Sayembara not found'});
 		}
+		sayembara_desa[0].tanggal_awal = sayembara_desa[0].tanggal_awal.toDateString();
+		sayembara_desa[0].tanggal_akhir = sayembara_desa[0].tanggal_akhir.toDateString();
+
 		req.sayembara_desa = sayembara_desa;
-		console.log(req.sayembara_desa);
+		console.log(sayembara_desa);
 		next();
 	});
  }

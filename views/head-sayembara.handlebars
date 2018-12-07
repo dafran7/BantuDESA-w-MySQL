@@ -38,57 +38,77 @@
         <section class="hero is-medium is-acara">
             <div class="hero-body">
                 <div class="container" data-aos="fade-down" data-aos-duration="1800">
-                    <h1 class="title has-text-centered has-text-success" id="acara">Daftar Sayembara</h1>
+
+                    <h1 class="title has-text-success" id="acara">Daftar Sayembara</h1>
+                    <div class="row">
+                        <div class="col-md-6" id="myBtnContainer">
+                          <button class="button is-active" onclick="filterSelection('all')">Lihat semua</button>
+                          <button class="button" onclick="filterSelection('cars')">Infrastruktur</button>
+                          <button class="button" onclick="filterSelection('animals')">Pakan</button>
+                          <button class="button" onclick="filterSelection('fruits')">Pangan</button>
+                          <button class="button" onclick="filterSelection('colors')">Pariwisata</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Cari Sayembara...">
+                                <div class="input-group-btn">
+                                  <button class="button is-active" type="submit">
+                                    Cari
+                                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <br>
                     {{#each sayembaras as |sayembara|}}
                     {{#ifCond @index '%=0' 2}}
-                    <div class="row mb-2">
+                    <div class="row">
                         <div class="col-md-6">
-
-                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                            <div class="half-circle" style="background-image: url(/uploads/img/logos/{{#ifCond sayembara.[topik] '==' 'Infrastruktur'}}INFRABULungu.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pakan'}}PAKANBULoren.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pangan'}}PANGANBULbiru.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pariwisata'}}PARIBULpink.png{{/ifCond}})"></div>
-                            <div class="card-bodyyy d-flex flex-column align-items-start hard">
-                            {{!-- <strong class="d-inline-block mb-2 text-primary">{{sayembara.[topik]}}</strong> --}}
-                            <strong class="d-inline-block mb-2 text-primary">Ini topik sayembara</strong>
-                            <h3 class="mb-0">
-                                <a class="text-dark" href="/sayembara/{{sayembara.id}}">{{sayembara.[judul_sayembara]}}</a>
-                            </h3>
-                            {{!-- <div class="mb-1 text-muted">Nov 12(X)</div> --}}
-                            <div class="mb-1 text-muted">Tanggal mulai - Tanggal berakhir</div>
-                            {{!-- <p class="card-text mb-auto">{{sayembara.[deskripsi_singkat]}}</p> --}}
-                            <p class="card-text mb-auto">{{substr 'Ini adalah deskripsi singkat dummy ya pokoknya dummy, jadi edit ini ya di head-sayembara ahahahah ahahahaha hehehehehe ganti pokoknya ya ahahahahaha' 100}}</p>
-                            <a href="/sayembara/{{sayembara.id}}">Continue reading</a>
+                            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                <div class="card-body flex-column align-items-start">
+                                  <div class="row">
+                                    <div class="col-lg-8">
+                                        <img class="card-img flex-auto d-none d-lg-block image is-64x64" src="/assets/img/{{sayembara.[gambar]}}" alt="" style="opacity: 0.4">
+                                        <strong class="d-inline-block mb-2 text-primary">{{sayembara.[topik]}}</strong>
+                                        <h3 class="mb-0">
+                                            <a class="text-dark" href="/sayembara/{{sayembara.id_sayembara}}">{{sayembara.[judul_sayembara]}}</a>
+                                        </h3>
+                                        <div class="mb-1 text-muted">{{sayembara.[tanggal_awal]}} - {{sayembara.[tanggal_akhir]}}</div>
+                                        <p class="card-text mb-auto">{{sayembara.[deskripsi_singkat]}}</p>
+                                        <a href="/sayembara/{{sayembara.id_sayembara}}">Continue reading</a>
+                                    </div>
+                                    <div class="col-lg-4" align="right">
+                                        <img class="card-img-bottom flex-auto d-none d-lg-block image is-64x64" src="/assets/img/hourglass.png" alt="" align="right">
+                                    </div>
+                                  </div>
+                                  
+                                </div>
                             </div>
-                            {{!-- <img class="card-img-right flex-auto d-none d-lg-block" data-src="{{sayembara.[foto]}}" alt="{{sayembara.[judul_sayembara]}}"> --}}
-                            <div class="card-body d-flex">
-                            <img class="card-img-right flex-auto d-none d-lg-block image is-64x64 alignright" src="/assets/img/{{#ifCond sayembara.[topik] '==' 'Infrastruktur'}}INFRABULungu.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pakan'}}PAKANBULoren.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pangan'}}PANGANBULbiru.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pariwisata'}}PARIBULpink.png{{/ifCond}}" alt="">
-                            <img class="card-img-right flex-auto d-none d-lg-block image is-64x64 alignright" src="/assets/img/hourglass.png" alt="">
-                            </div>
-                        </div>
                         </div>
                     {{/ifCond}}
 
                     {{#ifCond @index '%!=0' 2}}
                         <div class="col-md-6">
-                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                            <div class= "half-circle"  style="background-image: url('../public/assets/img/{{#ifCond sayembara.[topik] '==' 'Infrastruktur'}}INFRABULungu.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pakan'}}PAKANBULoren.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pangan'}}PANGANBULbiru.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pariwisata'}}PARIBULpink.png{{/ifCond}}');"></div>
-                            <div class="card-bodyyy d-flex flex-column align-items-start hard">
-                            {{!-- <strong class="d-inline-block mb-2 text-success">{{sayembara.[topik]}}</strong> --}}
-                            <strong class="d-inline-block mb-2 text-primary">Ini topik sayembara</strong>
-                            <h3 class="mb-0">
-                                <a class="text-dark" href="/sayembara/{{sayembara.id}}">{{sayembara.[judul_sayembara]}}</a>
-                            </h3>
-                            {{!-- <div class="mb-1 text-muted">Nov 11(X)</div> --}}
-                            <div class="mb-1 text-muted">Tanggal mulai - Tanggal berakhir</div>
-                            {{!-- <p class="card-text mb-auto">{{sayembara.[deskripsi_singkat]}}</p> --}}
-                            <p class="card-text mb-auto">{{substr 'Ini adalah deskripsi singkat dummy ya pokoknya dummy, jadi edit ini ya di head-sayembara ahahahah ahahahaha hehehehehe ganti pokoknya ya ahahahahaha' 100}} </p>
-                            <a href="/sayembara/{{sayembara.id}}">Continue reading</a>
-                            </div>
-                            {{!-- <img class="card-img-right flex-auto d-none d-lg-block" data-src="{{sayembara.[foto]}}" alt="{{sayembara.[judul_sayembara]}}"> --}}
-                            <div class="card-bodyy d-flex">
-                            <img class="card-img-right flex-auto d-none d-lg-block image is-64x64 alignright" src="/assets/img/{{#ifCond sayembara.[topik] '==' 'Infrastruktur'}}INFRABULungu.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pakan'}}PAKANBULoren.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pangan'}}PANGANBULbiru.png{{/ifCond}}{{#ifCond sayembara.[topik] '==' 'Pariwisata'}}PARIBULpink.png{{/ifCond}}" alt="">
-                            <img class="card-img-right flex-auto d-none d-lg-block image is-64x64 alignright" src="/assets/img/hourglass.png" alt="">
-                            </div>
+                            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                <div class="card-body flex-column align-items-start">
+                                  <div class="row">
+                                    <div class="col-lg-8">
+                                        <img class="card-img flex-auto d-none d-lg-block image is-64x64" src="/assets/img/{{sayembara.[gambar]}}" alt="" style="opacity: 0.4">
+                                        <strong class="d-inline-block mb-2 text-success">{{sayembara.[topik]}}</strong>
+                                        <h3 class="mb-0">
+                                            <a class="text-dark" href="/sayembara/{{sayembara.id_sayembara}}">{{sayembara.[judul_sayembara]}}</a>
+                                        </h3>
+                                        <div class="mb-1 text-muted">{{sayembara.[tanggal_awal]}} - {{sayembara.[tanggal_akhir]}}</div>
+                                        <p class="card-text mb-auto">{{sayembara.[deskripsi_singkat]}}</p>
+                                        <a href="/sayembara/{{sayembara.id_sayembara}}">Continue reading</a>
+                                    </div>
+                                    <div class="col-lg-4" align="right">
+                                        <img class="card-img-bottom flex-auto d-none d-lg-block image is-64x64" src="/assets/img/hourglass.png" alt="" align="right">
+                                    </div>
+                                  </div>
+                                  
+                                </div>
                             </div>
                         </div>
                     </div>
