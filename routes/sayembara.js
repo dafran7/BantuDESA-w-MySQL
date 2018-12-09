@@ -79,10 +79,37 @@ router.get('/', function(req, res){
  router.get('/:id', getIdDesa, getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
-// router.post('/:id', upload.single('file'), function(req, res){
-// 	var id_user = req.user.id;
-// 	var id_sayembara = req.params.id;
-// 	var subtopik = req.body.subtopik;
+router.post('/:id', function(req, res){ // ':/id', upload.single('file'), function
+ 	console.log(req.user.id_user)
+	var id_user = req.user.id_user;
+	var id_sayembara = req.params.id;
+	let subtopik = req.body.subtopik;
+	var tgl_kirim = Date.now();
+	var zz = "z";
+	
+	console.log("tae")
+	console.log(id_user)
+	console.log(subtopik)
+	var db = req.con;
+	db.query('INSERT INTO peserta (id_sayembara, id_user, subtopik, tgl_kirim, \
+			file_proposal) VALUES (?,?,?,?,?)',[id_sayembara, id_user, subtopik, tgl_kirim, zz], function (err, peserta) {
+			if (err) throw err;
+		});
+	console.log("tae")
+
+	req.flash('success_msg', 'You are now registered!');
+
+	res.redirect('/sayembara');
+
+	// app.post('/users', function (req, res) {
+	// 	connection.query('INSERT INTO users SET ?', req.body, 
+	// 		function (err, result) {
+	// 			if (err) throw err;
+	// 			res.send('User added to database with ID: ' + result.insertId);
+	// 		}
+	// 	);
+	// });
+});
 
 // 	// Upload Image
 // 	ext = '.'+req.file.originalname.split(".")[1]
