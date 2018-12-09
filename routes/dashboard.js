@@ -107,7 +107,7 @@ router.post('/createArticle', ensureAuthenticated, upload.single('file'), functi
 	//req.checkBody('file', 'Header foto dibutuhkan').notEmpty();
 	var errors = req.validationErrors();
 
-	// Upload Image
+	// Upload Image.
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
