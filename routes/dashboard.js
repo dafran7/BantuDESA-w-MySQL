@@ -27,9 +27,33 @@ router.get('/donasi', function(req, res){
 	res.render('donasi');
 });
 
-// Get Sayembara Page
+// Get Dashboard Page
 router.get('/', ensureAuthenticated, function(req, res){
-	id_sayembara = "5b447cb8c3089015bcf71ddd";
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var usercode = req.user.usercode;
+	console.log(usercode)
+
+	// Jika user adalah admin
+	if (usercode == 0){
+		db.query('SELECT * FROM user', function(err, users){
+			if(err) throw err;
+
+			console.log("users:")
+			db.query('SELECT * FROM peserta', function(err, pesertas){
+				if(err) throw err;
+
+				console.log(users)
+				console.log("pesertas:")
+				console.log(pesertas)
+				res.render('dashboard/index', {users: users, pesertas: pesertas});
+			});
+		});
+	}
+
+	// Jika user adalah wali desa
+	else if(usercode == 3){
+		id_sayembara = "5b447cb8c3089015bcf71ddd";
 	Peserta.getAllPeserta({id_sayembara: id_sayembara}, {sort: 'tanggal_buat'}, 
 		function(err, pesertas) {
 			if(err) throw err;
@@ -52,6 +76,8 @@ router.get('/', ensureAuthenticated, function(req, res){
 				
 	    	}
 	});
+	}
+	
 });
 
 // Get BuatArtikel Page
