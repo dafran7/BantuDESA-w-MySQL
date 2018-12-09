@@ -79,7 +79,7 @@ router.get('/', function(req, res){
  router.get('/:id', getIdDesa, getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
-router.post('/:id', function(req, res){ // ':/id', upload.single('file'), function
+router.post(':/id', upload.single('file'), function(req, res){ // ':/id', upload.single('file'), function
  	console.log(req.user.id_user)
 	var id_user = req.user.id_user;
 	var id_sayembara = req.params.id;
