@@ -20,7 +20,7 @@
                                 <th>Topik</th>
                                 <th>Deskripsi Singkat</th>
                                 <th>Isian</th>
-                                <th>Operasi</th>
+                                <th>Aksi</th>
                             </thead>
                             <tbody>
                             {{#each articles as |article|}}
@@ -30,7 +30,15 @@
                                     <td>{{article.[topik]}}</td>
                                     <td>{{substr article.[deskripsi_singkat] 50}}</td>
                                     <td>{{substr article.[isi_artikel] 70}}</td>
-                                    <td><a href="/dashboard/editArticle/{{article.id}}">Edit</a><br>Delete</td>
+                                    <td>
+                                        
+                                            
+                                                <a href="/dashboard/editArticle/{{article.id}}" style="padding-right: 10px">Edit</a>
+                                                
+                                                <a href="/dashboard/editArticle/{{article.id}}">Delete</a>
+                                            
+                                        
+                                    </td>
                                 </tr>
                             {{/each}}
                             </tbody>

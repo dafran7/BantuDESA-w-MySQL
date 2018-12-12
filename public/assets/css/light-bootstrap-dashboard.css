@@ -637,7 +637,7 @@ body>.navbar-collapse[data-color="black"]:after {
 .sidebar[data-color="greeny"]:after,
 body>.navbar-collapse[data-color="greeny"]:after {
     background-color: #089d95;
-  background: url(../images/sayembara/wave.png), linear-gradient(300deg, #089d95, #65cb67);
+  background: url(../images/sayembara/wave.png), linear-gradient(300deg, #089d95, #000);
   background-size: 100%, cover, cover;
   background-repeat: no-repeat;
   background-position: bottom; }

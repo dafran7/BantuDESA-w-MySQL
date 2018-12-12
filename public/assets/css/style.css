@@ -796,7 +796,7 @@ a.has-text-info:hover, a.has-text-info:focus {
   color: #0f81cc !important; }
 
 .has-text-success {
-  color: #3abb69 !important; }
+  color: #089d95 !important; }
 
 a.has-text-success:hover, a.has-text-success:focus {
   color: #2e9453 !important; }
@@ -1273,8 +1273,8 @@ a.box:active {
     .button:focus:not(:active), .button.is-focused:not(:active) {
       box-shadow: 0 0 0 0.125em rgba(255, 255, 255, 0.25); }
   .button:active, .button.is-active {
-    border-color: #4a4a4a;
-    color: #363636; }
+    background-color: #089d95;
+    color: #fff; }
   .button.is-text {
     background-color: transparent;
     border-color: transparent;
@@ -1471,7 +1471,7 @@ a.box:active {
         box-shadow: none;
         color: #363636; }
   .button.is-dark {
-    background-color: #363636;
+    background-color: #089d95;
     border-color: transparent;
     color: whitesmoke; }
     .button.is-dark:hover, .button.is-dark.is-hovered {
@@ -1711,7 +1711,7 @@ a.box:active {
         box-shadow: none;
         color: #fff; }
   .button.is-success {
-    background-color: #3abb69;
+    background-color: #089d95;
     border-color: transparent;
     color: #fff; }
     .button.is-success:hover, .button.is-success.is-hovered {
@@ -9454,7 +9454,7 @@ label.panel-block {
   .app-footer.is-footer-sayembara {
     background: #089d95;
     background: -webkit-linear-gradient(300deg, #089d95, #65cb67);
-    background: linear-gradient(300deg, #089d95, #65cb67); }
+    background: linear-gradient(300deg, #089d95, #000); }
   .app-footer.is-footer-ccomp {
     background-color: #36d1dc;
     background: -webkit-linear-gradient(300deg, #36d1dc, #5b86e5);
@@ -9474,7 +9474,7 @@ label.panel-block {
 
 .app-content-sayembara section.is-intro-sayembara {
   background-color: #089d95;
-  background: url(../images/sayembara/wave.png), linear-gradient(300deg, #089d95, #65cb67);
+  background: url(../images/sayembara/wave.png), linear-gradient(300deg, #089d95, #000);
   background-size: 100%, cover, cover;
   background-repeat: no-repeat;
   background-position: bottom; }
@@ -9494,16 +9494,16 @@ label.panel-block {
       margin: 0 auto;
       margin-top: 10px;
       margin-bottom: 10px;
-      border-bottom: 2px solid #3abb69ff;
+      border-bottom: 2px solid #089d95;
       border-radius: 8px; }
   .app-content-sayembara section.is-acara .columns .column:nth-child(2) .box .subtitle::before {
-    border-bottom: 2px solid #3abb69ff; }
+    border-bottom: 2px solid #089d95; }
   .app-content-sayembara section.is-acara .columns .column:nth-child(3) .box .subtitle::before {
-    border-bottom: 2px solid #3abb69ff; }
+    border-bottom: 2px solid #089d95; }
   .app-content-sayembara section.is-acara .columns .column:nth-child(4) .box::before {
-    border-bottom: 2px solid #3abb69ff; }
+    border-bottom: 2px solid #089d95; }
   .app-content-sayembara section.is-acara .columns .column:nth-child(5) .box::before {
-    border-bottom: 2px solid #3abb69ff; }
+    border-bottom: 2px solid #089d95; }
   .app-content-sayembara section.is-acara .columns .box {
     transition: box-shadow 0.3s; }
   .app-content-sayembara section.is-acara .columns .box:hover {

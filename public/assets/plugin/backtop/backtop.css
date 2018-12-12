@@ -7,7 +7,7 @@
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: #3abb69;
+  background-color: #089d95;
   color: white;
   cursor: pointer;
   padding: 15px;
@@ -15,5 +15,5 @@
 }
 
 #myBtn:hover {
-  background-color: #555;
+  background-color: #ffff00;
 }
