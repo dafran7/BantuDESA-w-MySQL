@@ -38,25 +38,24 @@ router.get('/', function(req, res){
 });
 
 // Get Sayembara tertentu
- function getIdDesa(req, res, next){
-	lastUrl = req.originalUrl;
-	var db = req.con;
-	db.query('SELECT id_desa FROM sayembara WHERE id_sayembara=?', [req.params.id], function(err,id_desa){
-		if(err) throw err;
-		if(!id_desa){
-    		res.render('sayembara', {message: 'Sayembara not found'});
-		}
-		req.id_desa = id_desa;
-		next();
-	});
- }
+ // function getIdDesa(req, res, next){
+	// lastUrl = req.originalUrl;
+	// var db = req.con;
+	// db.query('SELECT id_desa FROM sayembara WHERE id_sayembara=?', [req.params.id], function(err,id_desa){
+	// 	if(err) throw err;
+	// 	if(!id_desa){
+ //    		res.render('sayembara', {message: 'Sayembara not found'});
+	// 	}
+	// 	req.id_sayembara = req.params.id;
+	// 	next();
+	// });
+ // }
 
  function getSayembara_Desa(req, res, next){
 	lastUrl = req.originalUrl;
 	var db = req.con;
-	var id_desa = req.id_desa[0].id_desa;
-	console.log(id_desa)
-	db.query('SELECT sayembara.*, desa.* FROM sayembara JOIN desa ON sayembara.id_desa = desa.id_desa WHERE sayembara.id_desa=?', [id_desa], function(err,sayembara_desa){
+	// console.log(id_desa)
+	db.query('SELECT sayembara.*, desa.* FROM sayembara JOIN desa ON sayembara.id_desa = desa.id_desa WHERE sayembara.id_sayembara=?', [req.params.id], function(err,sayembara_desa){
 		if(err) throw err;
 		if(!sayembara_desa){
     		res.render('sayembara', {message: 'Sayembara not found'});
@@ -76,7 +75,7 @@ router.get('/', function(req, res){
 	});
  }
 
- router.get('/:id', getIdDesa, getSayembara_Desa, renderSayembaraPage);
+ router.get('/:id', getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
 router.post(':/id', upload.single('file'), function(req, res){ // ':/id', upload.single('file'), function
@@ -101,34 +100,34 @@ router.post(':/id', upload.single('file'), function(req, res){ // ':/id', upload
 
 	res.redirect('/sayembara');
 
-	// app.post('/users', function (req, res) {
-	// 	connection.query('INSERT INTO users SET ?', req.body, 
-	// 		function (err, result) {
-	// 			if (err) throw err;
-	// 			res.send('User added to database with ID: ' + result.insertId);
-	// 		}
-	// 	);
-	// });
-});
-
-// 	// Upload Image
-// 	ext = '.'+req.file.originalname.split(".")[1]
-// 	fs.rename(req.file.path, path.join('./public/uploads/file', req.file.filename)+ext)
-// 	file_proposal = '/uploads/file/'+req.file.filename+ext;
-	
-// 	var newPeserta = new Peserta({
-// 		id_user: id_user,
-// 		id_sayembara: id_sayembara,
-// 		file_proposal: file_proposal,
-// 		subtopik: subtopik
-// 	});
-
-// 	Peserta.createPeserta(newPeserta, function(err, log){
-// 		if(err) throw err;
-// 	});
-// 	res.render('sayembara', {
-// 		success_join: 'Succesfully join the Sayembara! Please wait until the Event finished.'
-// 	});
+	app.post('/users', function (req, res) {
+		connection.query('INSERT INTO users SET ?', req.body, 
+			function (err, result) {
+				if (err) throw err;
+				res.send('User added to database with ID: ' + result.insertId);
+			}
+		);
+	});
 // });
+
+	// Upload Image
+	ext = '.'+req.file.originalname.split(".")[1]
+	fs.rename(req.file.path, path.join('./public/uploads/file', req.file.filename)+ext)
+	file_proposal = '/uploads/file/'+req.file.filename+ext;
+	
+	var newPeserta = new Peserta({
+		id_user: id_user,
+		id_sayembara: id_sayembara,
+		file_proposal: file_proposal,
+		subtopik: subtopik
+	});
+
+	Peserta.createPeserta(newPeserta, function(err, log){
+		if(err) throw err;
+	});
+	res.render('sayembara', {
+		success_join: 'Succesfully join the Sayembara! Please wait until the Event finished.'
+	});
+});
 
 module.exports = router;
