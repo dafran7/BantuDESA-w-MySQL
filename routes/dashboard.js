@@ -51,8 +51,8 @@ router.get('/', ensureAuthenticated, function(req, res){
 		});
 	}
 
-	// Jika user adalah wali desa
-	else if(usercode == 3){
+	// Jika user adalah wali desa -> need some tweaking
+	else if(usercode == 1){
 		id_sayembara = "5b447cb8c3089015bcf71ddd";
 	Peserta.getAllPeserta({id_sayembara: id_sayembara}, {sort: 'tanggal_buat'}, 
 		function(err, pesertas) {
@@ -85,7 +85,7 @@ router.get('/createArticle', ensureAuthenticated, function(req, res){
 	res.render('dashboard/createArticle');
 });
 
-// Post BuatArtikel Page
+// Post BuatArtikel Page -> need some tweaking 
 router.post('/createArticle', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_artikel = req.body.judul_artikel;
 	var isi_artikel = req.body.isi_artikel;
@@ -107,7 +107,7 @@ router.post('/createArticle', ensureAuthenticated, upload.single('file'), functi
 	//req.checkBody('file', 'Header foto dibutuhkan').notEmpty();
 	var errors = req.validationErrors();
 
-	// Upload Image.
+	// Upload Image. -> need some tweaking
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
@@ -140,35 +140,61 @@ router.post('/createArticle', ensureAuthenticated, upload.single('file'), functi
 	}
 });
 
-// Get ListArticle Page
+// Get ListArticle Page -> DONE
 router.get('/listArticle', ensureAuthenticated, function(req, res){
-	Article.getAllArticles({id_user: req.user.id}, {sort: 'tanggal_buat'}, 
-		function(err, articles) {
-			if(err) throw err;
-			if(!articles[0]){
-	    		res.render('dashboard/listArticle', {message: 'notfound'});
-	    	}
-	    	else
-				res.render('dashboard/listArticle', {articles:articles});
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var usercode = req.user.usercode;
+	console.log(usercode)
+
+	db.query('SELECT * FROM articles ORDER BY tanggal_buat ASC', function(err, articles){
+		if(err) throw err;
+		console.log(articles)
+		if(!articles[0]){
+			res.render('dashboard/listArticle', {message: 'notfound'});
+		}
+		else
+			res.render('dashboard/listArticle', {articles:articles});
 	});
+	// asdf
 });
 
-// Get ListSayembara Page
+// Get ListSayembara Page -> DONE
 router.get('/listSayembara', ensureAuthenticated, function(req, res){
-	Sayembara.getAllSayembara({id_user: req.user.id}, {sort: 'tanggal_buat'}, 
-		function(err, sayembaras) {
-			if(err) throw err;
-			if(!sayembaras[0]){
-	    		res.render('dashboard/listSayembara', {message: 'notfound'});
-	    	}
-	    	else
-				res.render('dashboard/listSayembara', {sayembaras:sayembaras});
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var id_desa = req.user.id_desa;
+	console.log(id_desa)
+
+	db.query('SELECT * FROM sayembara WHERE id_desa=? ORDER BY tanggal_awal ASC', [id_desa], function(err, sayembaras){
+		if(err) throw err;
+		console.log(sayembaras)
+		if(!sayembaras[0]){
+			res.render('dashboard/listSayembara', {message: 'notfound'});
+		}
+		else
+			res.render('dashboard/listSayembara', {sayembaras:sayembaras});
 	});
+	// BATAS
+	// Sayembara.getAllSayembara({id_user: req.user.id}, {sort: 'tanggal_buat'}, // ini maksudnya tgl awal kali?
+	// 	function(err, sayembaras) {
+	// 		if(err) throw err;
+	// 		if(!sayembaras[0]){
+	//     		res.render('dashboard/listSayembara', {message: 'notfound'});
+	//     	}
+	//     	else
+	// 			res.render('dashboard/listSayembara', {sayembaras:sayembaras});
+	// });
 });
 
-// Get EditArticle Page
+// Get EditArticle Page -> DONE
 router.get('/editArticle/:id', ensureAuthenticated, function(req, res){
-	Article.getArticleById(req.params.id, function(err, article){
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var id_artikel = req.params.id;
+	console.log(id_artikel)
+
+	db.query('SELECT * FROM articles WHERE id_artikel=?', [id_artikel], function(err, article){
 		if(err) throw err;
 		if(!article){
     		res.render('dashboard/editArticle', {message: 'notfound'});
@@ -176,9 +202,18 @@ router.get('/editArticle/:id', ensureAuthenticated, function(req, res){
     	else
 	    	res.render('dashboard/editArticle', {article:article});
 	});
+	//BATAS
+	// Article.getArticleById(req.params.id, function(err, article){
+	// 	if(err) throw err;
+	// 	if(!article){
+    // 		res.render('dashboard/editArticle', {message: 'notfound'});
+    // 	}
+    // 	else
+	//     	res.render('dashboard/editArticle', {article:article});
+	// });
 });
 
-// Post EditArticle Page
+// Post EditArticle Page -> need some tweaking
 router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_artikel = req.body.judul_artikel;
 	var isi_artikel = req.body.isi_artikel;
@@ -200,7 +235,7 @@ router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), func
 	//req.checkBody('file', 'Header foto dibutuhkan').notEmpty();
 	var errors = req.validationErrors();
 
-	// Upload Image
+	// Upload Image -> need some tweaking
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
@@ -259,7 +294,7 @@ router.get('/createSayembara', ensureAuthenticated, function(req, res){
 	res.render('dashboard/createSayembara');
 });
 
-// Post CreateSayembara Page
+// Post CreateSayembara Page -> need some tweaking
 router.post('/createSayembara', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_sayembara = req.body.judul_sayembara;
 	var topik = req.body.topik;
@@ -269,7 +304,7 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 	var id_desa = req.user.id_desa;
 	var id_user = req.user.id;
 
-	// Upload Image
+	// Upload Image -> need some tweaking
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/events', req.file.filename)+ext)
 	foto_sayembara = '/uploads/img/events/'+req.file.filename+ext;
@@ -308,9 +343,14 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 	}
 });
 
-// Get EditSayembara Page
+// Get EditSayembara Page -> DONE
 router.get('/editSayembara/:id', ensureAuthenticated, function(req, res){
-	Sayembara.getSayembaraById(req.params.id, function(err, sayembara){
+	lastUrl = req.originalUrl;
+	var db = req.con;
+	var id_sayembara = req.params.id;
+	console.log(id_sayembara)
+
+	db.query('SELECT * FROM sayembara WHERE id_sayembara=?', [id_sayembara], function(err, sayembara){
 		if(err) throw err;
 		if(!sayembara){
     		res.render('dashboard/editSayembara', {message: 'notfound'});
@@ -318,9 +358,18 @@ router.get('/editSayembara/:id', ensureAuthenticated, function(req, res){
     	else
 	    	res.render('dashboard/editSayembara', {sayembara:sayembara});
 	});
+	// BATAS
+	// Sayembara.getSayembaraById(req.params.id, function(err, sayembara){
+	// 	if(err) throw err;
+	// 	if(!sayembara){
+    // 		res.render('dashboard/editSayembara', {message: 'notfound'});
+    // 	}
+    // 	else
+	//     	res.render('dashboard/editSayembara', {sayembara:sayembara});
+	// });
 });
 
-// Post EditArticle Page
+// Post EditArticle Page -> need some tweaking
 router.post('/editSayembara/:id', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_sayembara = req.body.judul_sayembara;
 	var topik = req.body.topik;
@@ -338,7 +387,7 @@ router.post('/editSayembara/:id', ensureAuthenticated, upload.single('file'), fu
 	//req.checkBody('file', 'Header foto dibutuhkan').notEmpty();
 	var errors = req.validationErrors();
 
-	// Upload Image
+	// Upload Image -> need some tweaking
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
