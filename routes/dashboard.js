@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
+var con = require("../connection");
 
 var User = require('../models/user');
 var Article = require('../models/article');
@@ -236,8 +237,8 @@ router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), func
 	var errors = req.validationErrors();
 
 	// Upload Image -> need some tweaking
-	ext = '.'+req.file.originalname.split(".")[1]
-	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
+	ext = '.'+req.file.originalname.split(".")[1];
+	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext);
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
 	
 	
@@ -300,14 +301,13 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 	var topik = req.body.topik;
 	var isi_sayembara = req.body.isi_sayembara;
 	var deskripsi_singkat = req.body.deskripsi_singkat;
-	var foto_sayembara = "";
 	var id_desa = req.user.id_desa;
 	var id_user = req.user.id;
 
 	// Upload Image -> need some tweaking
-	ext = '.'+req.file.originalname.split(".")[1]
-	fs.rename(req.file.path, path.join('./public/uploads/img/events', req.file.filename)+ext)
-	foto_sayembara = '/uploads/img/events/'+req.file.filename+ext;
+	ext = '.'+req.file.originalname.split(".")[1];
+	fs.rename(req.file.path, path.join('./public/uploads/img/events', req.file.filename)+ext);
+	var foto_sayembara = '/uploads/img/events/'+req.file.filename+ext;
 
 	req.checkBody('judul_sayembara', 'Judul sayembara dibutuhkan').notEmpty();
 	req.checkBody('topik', 'Topik dibutuhkan').notEmpty();
@@ -321,6 +321,17 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 			errors:errors
 		});
 	} else {
+		var db = con;
+		db.query('SELECT COUNT(*) FROM sayembara', function(err,count){
+			db.query('INSERT INTO sayembara (id_sayembara, id_desa, judul_sayembara, topik, \
+				deskripsi_singkat, isi_sayembara, tanggal_awal, tanggal_akhir, foto_sayembara) \
+				VALUES (?,?,?,?,?,?,?,?,?)', [null,id_desa,judul_sayembara,topik,deskripsi_singkat,isi_sayembara,Date.now,Date.now,foto_sayembara], function(err,rows){
+				if(err) throw err;
+
+			});
+		});
+
+		/*
 		var newSayembara = new Sayembara({
 			judul_sayembara: judul_sayembara,
 			topik: topik,
@@ -336,7 +347,7 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 			if(err) throw err;
 			//console.log(user);
 		});
-
+		*/
 		res.render('dashboard/createSayembara', {
 			success_msg: 'You added a new Sayembara! Please wait for confirmation from the Administrator.'
 		});

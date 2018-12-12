@@ -60,6 +60,8 @@ router.get('/', function(req, res){
 		if(!sayembara_desa){
     		res.render('sayembara', {message: 'Sayembara not found'});
 		}
+		console.log(sayembara_desa[0].tanggal_awal);
+		
 		sayembara_desa[0].tanggal_awal = sayembara_desa[0].tanggal_awal.toDateString();
 		sayembara_desa[0].tanggal_akhir = sayembara_desa[0].tanggal_akhir.toDateString();
 
