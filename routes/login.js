@@ -52,7 +52,7 @@ router.post('/register', function(req, res){
 	var nama_desa = req.body.nama_desa;
 	var lokasi_desa = req.body.lokasi_desa;
 
-	//console.log(name);
+	//.....
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
 	req.checkBody('email', 'Email is required').notEmpty();
@@ -79,7 +79,8 @@ router.post('/register', function(req, res){
 					hash_pass = hash;
 
 					db.query('INSERT INTO user (id_user, username, password, email, name, usercode,\
-						id_desa) VALUES (?,?,?,?,?,?,?)',[count+1,username,hash_pass,email,name,usercode,(type=='locals')?3:null], function(err,rows){
+						id_desa) VALUES (?,?,?,?,?,?,?)',[count+1,username,hash_pass,email,name,usercode,(type=='locals')?3:null], 
+						function(err,rows){
 							
 							if(err) throw err;
 							console.log(rows);
