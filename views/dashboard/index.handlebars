@@ -1,21 +1,24 @@
 <link rel="stylesheet" href="/assets/css/favorite.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
 
 <div class="content" alt="" data-aos="fade-right" data-aos-duration="1800">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
 
-                <div class="card strpied-tabled-with-hover">
+                <div class="card striped-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Daftar Peserta Sayembara</h4>
                         <p class="card-category">Berikut adalah daftar peserta yang mengikuti sayembara :</p>
                     </div>
-                    <div class="card-body table-full-width table-responsive">
+                    <div class="card-body table-full-width table-responsive" style="margin-left: 0.5%">
                         {{#ifCond message '==' 'notfound'}}
                             <p>Belum ada Peserta yang mengikuti Sayembara Anda.</p>
                         {{/ifCond}}
                         {{#if pesertas}}
-                        <table class="table table-hover table-striped">
+                        <table id="example" class="hover">
                             <thead>
                                 <th>Favorite</th>
                                 <th>ID</th>
@@ -59,3 +62,8 @@
     </div>
 </div>
 <script src="/favorite.js"></script>
+<script type="text/javascript">
+    $('#example').DataTable({
+        "order": [[ 1, "asc" ]]
+    });
+</script>
