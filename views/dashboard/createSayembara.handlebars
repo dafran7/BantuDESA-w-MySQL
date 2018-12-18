@@ -26,7 +26,13 @@
           						    </div>
                           <div class="form-group">
                             <label>Topik</label>
-                            <input type="text" class="form-control" name="topik" placeholder="ex : Irigasi, Pembangunan, Infrastruktur, Teknologi">
+                            <select class="form-control" name="topik" required>
+                              <option disabled selected> Pilih Topik</option>
+                              <option value="irigasi">Irigasi</option>
+                              <option value="pembangunan">Pembangunan</option>
+                              <option value="infrastruktur">Infrastruktur</option>
+                              <option value="teknologi">Teknologi</option>
+                            </select>
                           </div>
                           <div class="form-group">
                             <label>Deskripsi Singkat</label>
