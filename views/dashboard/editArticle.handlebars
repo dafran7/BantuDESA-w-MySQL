@@ -11,6 +11,7 @@
           <a href="{{link}}">here.</a>
         </div>
     {{/if}}
+    {{#each article}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -21,14 +22,14 @@
                         <p class="card-category">Isi form ini untuk membuat artikel baru</p>
                     </div>
                     <div class="card-body cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-						<form method="post" action="/dashboard/editArticle/{{article.id}}" enctype="multipart/form-data">
+						<form method="post" action="/dashboard/editArticle/{{this.[id_artikel]}}" enctype="multipart/form-data">
 						  <div class="form-group">
 						    <label>Judul artikel</label>
-						    <input type="text" class="form-control" name="judul_artikel" placeholder="Isi judul artikel" value="{{article.judul_artikel}}">
+						    <input type="text" class="form-control" name="judul_artikel" placeholder="Isi judul artikel" value="{{this.[judul_artikel]}}">
 						  </div>
               <div class="form-group">
                 <label>Deskripsi Singkat</label>
-                <input type="text" class="form-control" name="deskripsi_singkat" placeholder="Deskripsi singkat dari article yang akan ditunjukkan dihalaman depan" value="{{article.deskripsi_singkat}}">
+                <input type="text" class="form-control" name="deskripsi_singkat" placeholder="Deskripsi singkat dari article yang akan ditunjukkan dihalaman depan" value="{{this.[deskripsi_singkat]}}">
               </div>
 						  <div class="form-group">
 						    <label>Isi Article</label>
@@ -52,7 +53,7 @@
                 rows="10" 
                 placeholder="Content"
                 name="isi_artikel" 
-                v-tinymce-editor="content">{{article.isi_artikel}}</textarea>
+                v-tinymce-editor="content">{{this.[isi_artikel]}}</textarea>
     </fieldset>
 </div>
 <!-- {{ content }} 
@@ -107,7 +108,7 @@
                           </div> 
                           <div class="form-group">
                             <label>Topik</label>
-                            <input type="text" class="form-control" name="topik" placeholder="ex : Irigasi, Pembangunan, Infrastruktur, Teknologi" value="{{article.topik}}">
+                            <input type="text" class="form-control" name="topik" placeholder="ex : Irigasi, Pembangunan, Infrastruktur, Teknologi" value="{{this.[topik]}}">
                           </div>
                           <div class="form-group">
                             <label>Tambahkan Header Foto</label><br>
@@ -116,11 +117,11 @@
                           <div class="form-group">
                             <label>Dapat berkomentar?</label><br>
                             <div>
-                            <input type="radio" id="yes" name="comment" value="true" {{#ifCond article.can_comment '==' 1}}checked="checked" {{/ifCond}}/>
+                            <input type="radio" id="yes" name="comment" value="true" {{#ifCond this.[can_comment] '==' 1}}checked="checked" {{/ifCond}}/>
                             <label for="yes">Ya</label>
                             </div>
                             <div>
-                            <input type="radio" id="no" name="comment" value="false" {{#ifCond article.can_comment '==' 0}}checked="checked" {{/ifCond}}/>
+                            <input type="radio" id="no" name="comment" value="false" {{#ifCond this.[can_comment] '==' 0}}checked="checked" {{/ifCond}}/>
                             <label for="no">Tidak</label>
                             </div>
 
@@ -135,6 +136,7 @@
         	</div>
     	</div>
 	</div>
+  {{/each}}
 </div>
 
 </html>

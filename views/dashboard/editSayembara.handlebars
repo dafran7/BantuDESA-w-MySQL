@@ -11,6 +11,7 @@
           <a href="{{link}}">here.</a>
         </div>
     {{/if}}
+    {{#each sayembara}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -21,18 +22,18 @@
                         <p class="card-category">Isi form ini untuk membuat artikel baru</p>
                     </div>
                     <div class="card-body cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-          						<form method="post" action="/dashboard/editSayembara/{{sayembara.id}}" enctype="multipart/form-data">
+          						<form method="post" action="/dashboard/editSayembara/{{this.[id_sayembara]}}" enctype="multipart/form-data">
           						    <div class="form-group">
             						    <label>Judul Sayembara</label>
-            						    <input type="text" class="form-control" name="judul_sayembara" placeholder="Isi judul sayembara" value="{{sayembara.judul_sayembara}}">
+            						    <input type="text" class="form-control" name="judul_sayembara" placeholder="Isi judul sayembara" value="{{this.[judul_sayembara]}}">
           						    </div>
                           <div class="form-group">
                             <label>Topik</label>
-                            <input type="text" class="form-control" name="topik" placeholder="ex : Irigasi, Pembangunan, Infrastruktur, Teknologi" value="{{sayembara.topik}}">
+                            <input type="text" class="form-control" name="topik" placeholder="ex : Irigasi, Pembangunan, Infrastruktur, Teknologi" value="{{this.[topik]}}">
                           </div>
                           <div class="form-group">
                             <label>Deskripsi Singkat</label>
-                            <input type="text" class="form-control" name="deskripsi_singkat" placeholder="Deskripsi singkat dari sayembara yang akan ditunjukkan dihalaman depan" value="{{sayembara.deskripsi_singkat}}">
+                            <input type="text" class="form-control" name="deskripsi_singkat" placeholder="Deskripsi singkat dari sayembara yang akan ditunjukkan dihalaman depan" value="{{this.[deskripsi_singkat]}}">
                           </div>
 						  <div class="form-group">
 						    <label>Deskripsi Sayembara</label>
@@ -56,7 +57,7 @@
                 rows="10" 
                 placeholder="Content"
                 name="isi_sayembara" 
-                v-tinymce-editor="content">{{sayembara.isi_sayembara}}</textarea>
+                v-tinymce-editor="content">{{this.[isi_sayembara]}}</textarea>
     </fieldset>
 </div>
 <!-- {{ content }} 
@@ -135,5 +136,6 @@
         	</div>
     	</div>
 	</div>
+  {{/each}}
 </div>
 </html>
