@@ -85,7 +85,7 @@ router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload
 	var id_user = req.user.id_user;
 	var id_sayembara = req.params.id;
 	let subtopik = req.body.subtopik;
-	var tgl_kirim = Date.now();
+	// var tgl_kirim = Date.now();
 	var zz = "z";
 
 	ext = '.'+req.file.originalname.split(".")[1];
@@ -99,8 +99,8 @@ router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload
 	console.log(id_user)
 	console.log(subtopik)
 	var db = req.con;
-	db.query('INSERT INTO peserta (id_sayembara, id_user, subtopik, tgl_kirim, \
-			file_proposal) VALUES (?,?,?,?,?)',[id_sayembara, id_user, subtopik, tgl_kirim, file_proposal], function (err, peserta) {
+	db.query('INSERT INTO peserta (id_sayembara, id_user, subtopik, \
+			file_proposal) VALUES (?,?,?,?)',[id_sayembara, id_user, subtopik, file_proposal], function (err, peserta) {
 			if (err) throw err;
 		});
 	console.log("tae")
