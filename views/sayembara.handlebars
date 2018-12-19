@@ -14,7 +14,7 @@
     }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+{{#if user}}
 {{#each sayembara_desa}}
 <section class="mbr-section content5 cid-qv5ziUg3gf mbr-parallax-background"> <!-- Ganti foto di mbr-additional.css, Search "cid-qv5ziUg3gf" -->
     <div class="container">
@@ -48,15 +48,18 @@
                         <h4 class= "has-text-centered" id="ide" >Kamu punya ide yang menarik?</h4>
                         <h4 class= "has-text-centered" id="ide1" style="display:none;" >Silakan upload proposalmu.</h4><br>
                         <br>
+
+                        
                         <center><a class="button is-success is-rounded has-text-white" id="daftar">Daftar di sini!</a></center>
+        
                         <center><a class="button is-danger is-rounded has-text-white" id="daftar1" style="display : none;">Batalkan</a></center>
                         <br>
 
                         {{!--  --}}
                         <div id="join" style ="display: none;">
                         
-                            <form method="post" action="/sayembara/{{sayembara.id}}">
-                                {{!-- ^ harusnya pake enctype="multipart/form-data" --}}
+                            <form method="post" action="/sayembara/{{this.[id_sayembara]}}" enctype="multipart/form-data">
+                                {{!-- ^ harusnya pake " --}}
                                 <label>Tambahkan Ide</label><br>
                                 <div class="form-group">
                                     <label>Subtopik :</label>
@@ -77,8 +80,8 @@
                     <div class="container" style=" min-width: 325px;background-color: white; border-radius: 10px; margin-top: -25px; margin-left: -10px;">
                         <br>
                         <center><img class="image is-64x72" src="/assets/img/village.png" alt=""><hr></center>
-                        <form method="post" action="/sayembara/{{sayembara.id}}" enctype="multipart/form-data">
-                            <h6>Nama desa : *****</h6>
+                        <form method="post" action="/sayembara/{{this.[id_sayembara]}}" enctype="multipart/form-data">
+                            <h6>Nama desa : {{this.[nama_desa]}}</h6>
                             <h6>Detail desa :</h6>
                             <li>Kepala desa : *****</li>
                             <li>Lokasi desa : *****</li>
@@ -93,6 +96,70 @@
     </div>
 </section>
 {{/each}}
+{{else}}
+{{#each sayembara_desa}}
+<section class="mbr-section content5 cid-qv5ziUg3gf mbr-parallax-background"> <!-- Ganti foto di mbr-additional.css, Search "cid-qv5ziUg3gf" -->
+    <div class="container">
+        <div class="row">
+
+                <div class="col-md-9" data-aos="fade-in" data-aos-duration="1800">
+                    <div class="container">
+                        <header>
+                            <br>
+                            <h1 class="title-site">{{this.[judul_sayembara]}}</h1>
+                        </header>
+                        <article class="posts">
+                            <div class="meta-post">
+                                <span><em class="glyphicon glyphicon-user"></em> {{user.name}}</span>
+                                <div class="mb-1 text-muted">{{this.[tanggal_awal]}} - {{this.[tanggal_akhir]}}</div>
+                            </div>
+                            <div class="content" style="color: rgb(0,0,0);">
+                                <img src="{{this.[foto_sayembara]}}" alt="{{this.[judul_sayembara]}}" title="" media-simple="true"> 
+                                <p>{{this.isi_sayembara}}</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                {{!-- Jangan dihapus! --}}
+                <div class="col-md-3" data-aos="fade-in" data-aos-duration="1800">
+                    <br>
+                    <div class="container" style=" min-width: 325px;background-color: white; border-radius: 10px; margin-top: -25px; margin-bottom: -10px; margin-left: -10px;">
+                    <br>
+
+                        <h4 class= "has-text-centered" id="ide" >Kamu punya ide yang menarik?</h4>
+                        <h4 class= "has-text-centered" id="ide1" style="display:none;" >Silakan upload proposalmu.</h4><br>
+                        <br>
+
+                        
+                        <center><a href="../../login" class="button is-success is-rounded has-text-white" id="daftar">Login untuk ikut sayembara</a></center>
+                    
+                        <br>
+
+
+                    </div>
+                    <br> <br>
+                    <div class="container" style=" min-width: 325px;background-color: white; border-radius: 10px; margin-top: -25px; margin-left: -10px;">
+                        <br>
+                        <center><img class="image is-64x72" src="/assets/img/village.png" alt=""><hr></center>
+                        <form method="post" action="/sayembara/{{this.[id_sayembara]}}" enctype="multipart/form-data">
+                            <h6>Nama desa : {{this.[nama_desa]}}</h6>
+                            <h6>Detail desa :</h6>
+                            <li>Kepala desa : *****</li>
+                            <li>Lokasi desa : *****</li>
+                            <li>No.telp desa : *****</li>
+                            
+                        </form>
+                        <br>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</section>
+{{/each}}
+{{/if}}
+
 
 <script>
 $(document).ready(function(){

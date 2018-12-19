@@ -80,20 +80,27 @@ router.get('/', function(req, res){
  router.get('/:id', getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
-router.post(':/id', upload.single('file'), function(req, res){ // ':/id', upload.single('file'), function
+router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload.single('file'), function
  	console.log(req.user.id_user)
 	var id_user = req.user.id_user;
 	var id_sayembara = req.params.id;
 	let subtopik = req.body.subtopik;
 	var tgl_kirim = Date.now();
 	var zz = "z";
+
+	ext = '.'+req.file.originalname.split(".")[1];
+	fs.rename(req.file.path, path.join('./public/uploads/file', req.file.filename)+ext);
+	var file_proposal = '/uploads/file/'+req.file.filename+ext;
+
+	req.checkBody('file', 'File proposal dibutuhkan').notEmpty();
+	req.checkBody('topik', 'Topik dibutuhkan').notEmpty();
 	
-	console.log("tae")
+	console.log("ANJING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	console.log(id_user)
 	console.log(subtopik)
 	var db = req.con;
 	db.query('INSERT INTO peserta (id_sayembara, id_user, subtopik, tgl_kirim, \
-			file_proposal) VALUES (?,?,?,?,?)',[id_sayembara, id_user, subtopik, tgl_kirim, zz], function (err, peserta) {
+			file_proposal) VALUES (?,?,?,?,?)',[id_sayembara, id_user, subtopik, tgl_kirim, file_proposal], function (err, peserta) {
 			if (err) throw err;
 		});
 	console.log("tae")
