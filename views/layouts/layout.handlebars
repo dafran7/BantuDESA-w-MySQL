@@ -72,6 +72,15 @@
               </li>
             {{/ifCond}}
 
+            {{#ifCond user.usercode '==' 3}}
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/profil">{{user.username}}</a>
+              </li>
+            {{/ifCond}}
+
             {{#ifCond user.usercode '==' 1}}
               <li class="nav-item">
                 <a class="nav-link" href="/profil">{{user.username}}</a>

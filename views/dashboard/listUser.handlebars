@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="/assets/css/favorite.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+
+<div class="content" alt="" data-aos="fade-right" data-aos-duration="1800">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card striped-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Daftar Peserta Sayembara</h4>
+                        <p class="card-category">Berikut adalah daftar peserta yang mengikuti sayembara :</p>
+                    </div>
+                    <div class="card-body table-full-width table-responsive" style="margin-left: 0.5%">
+                        {{#ifCond message '==' 'notfound'}}
+                            <p>Belum ada Peserta yang mengikuti Sayembara Anda.</p>
+                        {{/ifCond}}
+                        {{#if users}}
+                        <table id="example" class="hover">
+                            <thead>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Code</th>
+                            </thead>
+                            <tbody>
+                            {{#each users as |usr|}}
+                            <tr>
+                                <td>{{inc @index}}</td>
+                                <td>{{usr.[name]}}</td>
+                                <td>{{usr.[email]}}</td>
+                                <td>{{#ifCond usr.[usercode] '==' 1}}
+                                    User Biasa
+                                    {{/ifCond}}
+                                    {{#ifCond usr.[usercode] '==' 2}}
+                                    <a href="#">Wali Desa</a>
+                                    {{/ifCond}}
+                                    {{#ifCond usr.[usercode] '==' 3}}
+                                    Content Creator
+                                    {{/ifCond}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/favorite.js"></script>
+<script type="text/javascript">
+    $('#example').DataTable({
+        "order": [[ 0, "asc" ]]
+    });
+</script>

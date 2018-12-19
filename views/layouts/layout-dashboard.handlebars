@@ -16,7 +16,7 @@
 
 </head>
 
-<body>
+<body style="padding-top: 0px">
     <script type="text/javascript" src='/bower_components/jquery/dist/jquery.js'></script>
     <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -37,6 +37,7 @@
 
 	    Tip 2: you can also add an image using data-image tag
 	-->
+            {{#if user}}
 	        <div class="sidebar-wrapper">
 	            <div class="logo">
 	                <a href="/" class="simple-text">
@@ -44,38 +45,51 @@
 	                </a>
 	            </div>
 	            <ul class="nav">
+                    {{#ifCond user.usercode '==' 2}}
 	                <li class="nav-item">
 	                    <a class="nav-link" href="/dashboard/">
 	                        <p>Peserta Sayembara</p>
 	                    </a>
 	                </li>
+                    {{/ifCond}}
+                    {{#ifCond user.usercode '==' 0}}
 	                <li>
-	                    <a class="nav-link" href="/dashboard/userProfile">
-	                        <p>User Profile</p>
+	                    <a class="nav-link" href="/dashboard/listUser">
+	                        <p>List User</p>
 	                    </a>
 	                </li>
+                    {{/ifCond}}
+                    {{#ifCond user.usercode '!=' 2}}
                     <li>
                         <a class="nav-link" href="/dashboard/listArticle">
                             <p>Daftar Artikel</p>
                         </a>
                     </li>
+                    {{/ifCond}}
+                    {{#ifCond user.usercode '!=' 3}}
                     <li>
                         <a class="nav-link" href="/dashboard/listSayembara">
                             <p>Daftar Sayembara</p>
                         </a>
                     </li>
+                    {{/ifCond}}
+                    {{#ifCond user.usercode '==' 3}}
                     <li>
                         <a class="nav-link" href="/dashboard/createArticle">
                             <p>Buat Artikel Baru</p>
                         </a>
                     </li>
+                    {{/ifCond}}
+                    {{#ifCond user.usercode '==' 2}}
                     <li>
                         <a class="nav-link" href="/dashboard/createSayembara">
                             <p>Buat Sayembara Baru</p>
                         </a>
                     </li>
+                    {{/ifCond}}
 	            </ul>
 	        </div>
+            {{/if}}
 	    </div>
 
 	    <div class="main-panel">

@@ -8,7 +8,7 @@ var upload = multer({ dest: './tmp/'});
 
 var icon = {Infrastruktur: "INFRABULungu.png", 
 			Pakan: "PAKANBULoren.png", 
-			Pangan: "PANGANBULbitu.png",
+			Pangan: "PANGANBULbiru.png",
 			Pariwisata: "PARIBULpink.png"};
 
 // Login Layout

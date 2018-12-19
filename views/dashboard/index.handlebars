@@ -32,10 +32,12 @@
                                     <td>
                                         <!-- kalo  blom dipencet -->
                                         <div class="click">
-                                            <span class="fa fa-star-o"></span>
-                                            <div class="ring"></div>
-                                            <div class="ring2"></div>
-                                            <p class="info">Aku suka!</p>
+                                            <div class="star-{{inc @index}}">
+                                                <span class="fa fa-star-o"></span>
+                                                <div class="ring"></div>
+                                                <div class="ring2"></div>
+                                                <p class="info">Aku suka!</p>
+                                            </div>
                                         </div>
 
                                         <!-- kalo udah dipencet -->
@@ -46,10 +48,10 @@
                                             <p class="info">Aku suka!</p>
                                         </div> -->
                                     </td>
-                                    <td>{{inc @index}}</td>
-                                    <td>{{adt ../users @index 'name'}}</td>
+                                    <td>{{@index}}</td>
+                                    <td>{{adt ../pesertas @index 'name'}}</td>
                                     <td>{{peserta.[subtopik]}}</td>
-                                    <td><a href="{{peserta.[file_proposal]}}">Download</a></td>
+                                    <td><a href="../uploads/file/{{peserta.[file_proposal]}}">Download</a></td>
                                 </tr>
                             {{/each}}
                             </tbody>

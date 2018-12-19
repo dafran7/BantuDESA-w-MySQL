@@ -197,7 +197,7 @@ hbs.registerHelper('substr', function (value, end, options) {
     return str;
 });
 
-hbs.registerHelper('adt', function (value, index, name, options) {
+hbs.registerHelper('adt', function (value, index) {
     return value[index].name;
 });
 

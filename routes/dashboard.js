@@ -33,51 +33,49 @@ router.get('/', ensureAuthenticated, function(req, res){
 	lastUrl = req.originalUrl;
 	var db = req.con;
 	var usercode = req.user.usercode;
-	console.log(usercode)
+	console.log("usercode:"+usercode);
+	
+	if (usercode==3){
+		return res.redirect('/dashboard/listArticle');
+	}
 
-	// Jika user adalah admin
-	if (usercode == 0){
-		db.query('SELECT * FROM user', function(err, users){
-			if(err) throw err;
-
-			console.log("users:")
-			db.query('SELECT * FROM peserta', function(err, pesertas){
-				if(err) throw err;
-
-				console.log(users)
-				console.log("pesertas:")
-				console.log(pesertas)
-				res.render('dashboard/index', {users: users, pesertas: pesertas});
-			});
-		});
+	if (usercode==0){
+		return res.redirect('/dashboard/listUser');
 	}
 
 	// Jika user adalah wali desa -> need some tweaking
-	else if(usercode == 1){
-		id_sayembara = "5b447cb8c3089015bcf71ddd";
-	Peserta.getAllPeserta({id_sayembara: id_sayembara}, {sort: 'tanggal_buat'}, 
-		function(err, pesertas) {
-			if(err) throw err;
-			if(!pesertas[0]){
-	    		res.render('dashboard/index', {message: 'notfound'});
-	    	}
-	    	else {
-	    		var ids = [];
-	    		for(i=0;i<pesertas.length;i++)
-	    			ids.push(pesertas[i].id_user.toString());
-    			User.find({'_id': {$in: ids}},null,null, function(err, users){
-    				if(err) throw err;
-    				if (users){
-						res.render('dashboard/index', {
-							pesertas:pesertas,
-							users:users
-						});
-					}
-				});
-				
-	    	}
+	id_sayembara = "1";
+
+	db.query('SELECT peserta.*,user.name FROM peserta JOIN user ON \
+	peserta.id_user = user.id_user WHERE id_sayembara=?',[id_sayembara], function(err, pesertas){
+		// if(err) throw err;
+
+		res.render('dashboard/index', {pesertas: pesertas});
 	});
-	}
+
+	// Peserta.getAllPeserta({id_sayembara: id_sayembara}, {sort: 'tanggal_buat'}, 
+	// 	function(err, pesertas) {
+	// 		if(err) throw err;
+	// 		if(!pesertas[0]){
+	// 			res.render('dashboard/index', {message: 'notfound'});
+	// 		}
+	// 		else {
+	// 			var ids = [];
+	// 			for(i=0;i<pesertas.length;i++)
+	// 				ids.push(pesertas[i].id_user.toString());
+	// 			User.find({'_id': {$in: ids}},null,null, function(err, users){
+	// 				if(err) throw err;
+	// 				if (users){
+	// 					res.render('dashboard/index', {
+	// 						pesertas:pesertas,
+	// 						users:users
+	// 					});
+	// 				}
+	// 			});
+				
+	// 		}
+	// });
+	
 	
 });
 
@@ -113,9 +111,6 @@ router.post('/createArticle', ensureAuthenticated, upload.single('file'), functi
 	ext = '.'+req.file.originalname.split(".")[1]
 	fs.rename(req.file.path, path.join('./public/uploads/img/articles', req.file.filename)+ext)
 	foto = '/uploads/img/articles/'+req.file.filename+ext;
-	
-	
-	
 
 	if(errors){
 		res.render('dashboard/createArticle',{
@@ -285,8 +280,19 @@ router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), func
 });
 
 // Get userProfile Page
-router.get('/userProfile', ensureAuthenticated, function(req, res){
-	res.render('dashboard/userProfile');
+router.get('/listUser', ensureAuthenticated, function(req, res){
+	var db = req.con;
+	var usercode = req.user.usercode;
+
+	// Jika user adalah admin
+	db.query('SELECT * FROM user WHERE usercode=1 OR usercode=2 OR usercode=3', function(err, users){
+		if(err) throw err;
+
+		console.log("users:");
+		res.render('dashboard/listUser', {users: users});
+		
+	});
+	
 });
 
 function ensureAuthenticated(req, res, next){
