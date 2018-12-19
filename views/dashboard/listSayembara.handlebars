@@ -30,8 +30,30 @@
                                     <td>{{sayembara.[topik]}}</td>
                                     <td>{{substr sayembara.[deskripsi_singkat] 50}}</td>
                                     <td>{{substr sayembara.[isi_sayembara] 70}}</td>
-                                    <td><a href="/dashboard/editSayembara/{{sayembara.id}}">Edit</a><br>Delete</td>
+                                    <td>
+                                        <a href="/dashboard/sayembara/{{sayembara.[id_sayembara]}}/edit" style="padding-right: 10px">Edit</a>
+
+                                        <a href="javascript:;" id="delete-{{sayembara.[id_sayembara]}}">Delete</a>
+                                    </td>
                                 </tr>
+
+                                <script>
+                                    $('#delete-{{sayembara.[id_sayembara]}}').on("click",function(){
+                                        console.log("Bisa");
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/dashboard/sayembara/{{sayembara.[id_sayembara]}}/delete",
+                                        complete: function() {
+                                            $(location).attr("href", "/dashboard/listSayembara");
+                                            //alert('update success'); 
+                                        }
+                                    }).done(function(res){
+                                        console.log(res);
+                                        //"Updated data successfully\n";
+                                        //IF ALL IS OK!!
+                                        });
+                                    });
+                                </script>
                             {{/each}}
                             </tbody>
                         </table>

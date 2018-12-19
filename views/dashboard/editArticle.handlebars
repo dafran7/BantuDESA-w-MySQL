@@ -22,7 +22,7 @@
                         <p class="card-category">Isi form ini untuk membuat artikel baru</p>
                     </div>
                     <div class="card-body cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-						<form method="post" action="/dashboard/editArticle/{{this.[id_artikel]}}" enctype="multipart/form-data">
+						<form method="post" action="/dashboard/article/{{this.[id_artikel]}}/edit" enctype="multipart/form-data">
 						  <div class="form-group">
 						    <label>Judul artikel</label>
 						    <input type="text" class="form-control" name="judul_artikel" placeholder="Isi judul artikel" value="{{this.[judul_artikel]}}">

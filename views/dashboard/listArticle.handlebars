@@ -31,15 +31,29 @@
                                     <td>{{substr article.[deskripsi_singkat] 50}}</td>
                                     <td>{{substr article.[isi_artikel] 70}}</td>
                                     <td>
+                                        <a href="/dashboard/article/{{article.[id_artikel]}}/edit" style="padding-right: 10px">Edit</a>
                                         
-                                            
-                                                <a href="/dashboard/editArticle/{{article.id}}" style="padding-right: 10px">Edit</a>
-                                                
-                                                <a href="/dashboard/editArticle/{{article.id}}">Delete</a>
-                                            
-                                        
+                                        <a href="javascript:;" id="delete-{{article.[id_artikel]}}">Delete</a>
                                     </td>
                                 </tr>
+
+                                <script>
+                                    $('#delete-{{article.[id_artikel]}}').on("click",function(){
+                                        console.log("Bisa");
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/dashboard/article/{{article.[id_artikel]}}/delete",
+                                        complete: function() {
+                                            $(location).attr("href", "/dashboard/listArticle");
+                                            //alert('update success'); 
+                                        }
+                                    }).done(function(res){
+                                        console.log(res);
+                                        //"Updated data successfully\n";
+                                        //IF ALL IS OK!!
+                                        });
+                                    });
+                                </script>
                             {{/each}}
                             </tbody>
                         </table>
@@ -50,3 +64,4 @@
         </div>
     </div>
 </div>
+

@@ -195,7 +195,7 @@ router.get('/listSayembara', ensureAuthenticated, function(req, res){
 });
 
 // Get EditArticle Page -> DONE
-router.get('/editArticle/:id', ensureAuthenticated, function(req, res){
+router.get('/article/:id/edit', ensureAuthenticated, function(req, res){
 	lastUrl = req.originalUrl;
 	var db = req.con;
 	var id_artikel = req.params.id;
@@ -221,7 +221,7 @@ router.get('/editArticle/:id', ensureAuthenticated, function(req, res){
 });
 
 // Post EditArticle Page -> DONE
-router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), function(req, res){
+router.post('/article/:id/edit', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_artikel = req.body.judul_artikel;
 	var isi_artikel = req.body.isi_artikel;
 	var deskripsi_singkat = req.body.deskripsi_singkat;
@@ -279,6 +279,32 @@ router.post('/editArticle/:id', ensureAuthenticated, upload.single('file'), func
 	}
 });
 
+// Post DeleteArticle Page -> DONE
+router.post('/article/:id/delete', ensureAuthenticated, function(req, res){
+	var id_artikel = req.params.id;
+	var db = con;
+
+	db.query('DELETE FROM articles WHERE id_artikel=?',[id_artikel], function(err,rows){
+		if(err) throw err;
+
+	});
+
+	res.redirect('/dashboard/listArticle');
+});
+
+// Post DeleteSayembara Page -> DONE
+router.post('/sayembara/:id/delete', ensureAuthenticated, function(req, res){
+	var id_sayembara = req.params.id;
+	var db = con;
+
+	db.query('DELETE FROM sayembara WHERE id_sayembara=?',[id_sayembara], function(err,rows){
+		if(err) throw err;
+
+	});
+
+	res.redirect('/dashboard/listSayembara');
+});
+
 // Get userProfile Page
 router.get('/listUser', ensureAuthenticated, function(req, res){
 	var db = req.con;
@@ -324,6 +350,7 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 	var id_desa = req.user.id_desa;
 	var id_user = req.user.id;
 	var tgl_kirim = new Date();
+	var batas_kirim = req.body.batas;
 
 	// Upload Image -> DONE
 	ext = '.'+req.file.originalname.split(".")[1];
@@ -346,7 +373,7 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 		db.query('SELECT COUNT(*) FROM sayembara', function(err,count){
 			db.query('INSERT INTO sayembara (id_sayembara, id_desa, judul_sayembara, topik, \
 				deskripsi_singkat, isi_sayembara, tanggal_awal, tanggal_akhir, foto_sayembara) \
-				VALUES (?,?,?,?,?,?,?,?,?)', [null,id_desa,judul_sayembara,topik,deskripsi_singkat,isi_sayembara,tgl_kirim,tgl_kirim,foto_sayembara], function(err,rows){
+				VALUES (?,?,?,?,?,?,?,?,?)', [null,id_desa,judul_sayembara,topik,deskripsi_singkat,isi_sayembara,tgl_kirim,batas_kirim,foto_sayembara], function(err,rows){
 				if(err) throw err;
 
 			});
@@ -376,7 +403,7 @@ router.post('/createSayembara', ensureAuthenticated, upload.single('file'), func
 });
 
 // Get EditSayembara Page -> DONE
-router.get('/editSayembara/:id', ensureAuthenticated, function(req, res){
+router.get('/sayembara/:id/edit', ensureAuthenticated, function(req, res){
 	lastUrl = req.originalUrl;
 	var db = req.con;
 	var id_sayembara = req.params.id;
@@ -402,7 +429,7 @@ router.get('/editSayembara/:id', ensureAuthenticated, function(req, res){
 });
 
 // Post EditSayembara Page -> need some tweaking
-router.post('/editSayembara/:id', ensureAuthenticated, upload.single('file'), function(req, res){
+router.post('/sayembara/:id/edit', ensureAuthenticated, upload.single('file'), function(req, res){
 	var judul_sayembara = req.body.judul_sayembara;
 	var topik = req.body.topik;
 	var isi_sayembara = req.body.isi_sayembara;
