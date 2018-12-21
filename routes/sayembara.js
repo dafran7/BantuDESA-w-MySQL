@@ -80,7 +80,7 @@ router.get('/', function(req, res){
  router.get('/:id', getSayembara_Desa, renderSayembaraPage);
 
 // Upload.
-router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload.single('file'), function
+router.post('/:id', upload.single('file'), getSayembara_Desa, function(req, res){ // ':/id', upload.single('file'), function
  	console.log(req.user.id_user)
 	var id_user = req.user.id_user;
 	var id_sayembara = req.params.id;
@@ -95,7 +95,6 @@ router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload
 	req.checkBody('file', 'File proposal dibutuhkan').notEmpty();
 	req.checkBody('topik', 'Topik dibutuhkan').notEmpty();
 	
-	console.log("ANJING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	console.log(id_user)
 	console.log(subtopik)
 	var db = req.con;
@@ -103,39 +102,10 @@ router.post('/:id', upload.single('file'), function(req, res){ // ':/id', upload
 			file_proposal) VALUES (?,?,?,?)',[id_sayembara, id_user, subtopik, file_proposal], function (err, peserta) {
 			if (err) throw err;
 		});
-	console.log("tae")
 
-	req.flash('success_msg', 'You are now registered!');
-
-	res.redirect('/sayembara');
-
-	app.post('/users', function (req, res) {
-		connection.query('INSERT INTO users SET ?', req.body, 
-			function (err, result) {
-				if (err) throw err;
-				res.send('User added to database with ID: ' + result.insertId);
-			}
-		);
-	});
-// });
-
-	// Upload Image
-	ext = '.'+req.file.originalname.split(".")[1]
-	fs.rename(req.file.path, path.join('./public/uploads/file', req.file.filename)+ext)
-	file_proposal = '/uploads/file/'+req.file.filename+ext;
-	
-	var newPeserta = new Peserta({
-		id_user: id_user,
-		id_sayembara: id_sayembara,
-		file_proposal: file_proposal,
-		subtopik: subtopik
-	});
-
-	Peserta.createPeserta(newPeserta, function(err, log){
-		if(err) throw err;
-	});
 	res.render('sayembara', {
-		success_join: 'Succesfully join the Sayembara! Please wait until the Event finished.'
+		sayembara_desa: req.sayembara_desa,
+		ikut_msg: 'Succesfully join the Sayembara! Please wait until the Event finished.'
 	});
 });
 

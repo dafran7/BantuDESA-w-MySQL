@@ -135,6 +135,22 @@
     </script>
   {{/if}}
 
+  {{#if ikut_msg}}
+    <script>
+      $(document).ready (function() {
+          // bootbox.alert('You are logged out');
+          swal({
+            // position: 'top-end',
+            type: 'success',
+            title: 'Anda berhasil mengikuti sayembara',
+            // text: 'Logged out',
+            showConfirmButton: false,
+            timer: 1500
+          })
+      });
+    </script>
+  {{/if}}
+
   {{#if success_join}}
     <script>
       $(document).ready (function() {
